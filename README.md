@@ -6,3 +6,4 @@ html
 dragging file 
 interactive file
 feedback files 
+new generated 
