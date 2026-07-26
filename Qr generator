@@ -1,0 +1,59 @@
+import qrcode
+from PIL import Image
+
+def generate_qr(data, filename="my_qr.png"):
+    qr = qrcode.QRCode(
+        version=None,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=4,
+    )
+
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    img.save(filename)
+
+    print(f"QR Code saved as {filename}")
+
+print("===== QR Code Generator =====")
+print("1. Website/App Link")
+print("2. Text")
+print("3. WiFi")
+print("4. Contact")
+
+choice = input("Choose option (1-4): ")
+
+if choice == "1":
+    link = input("Enter Website/App Link: ")
+    generate_qr(link)
+
+elif choice == "2":
+    text = input("Enter Text: ")
+    generate_qr(text)
+
+elif choice == "3":
+    ssid = input("WiFi Name (SSID): ")
+    password = input("Password: ")
+    security = input("Security (WPA/WEP/nopass): ")
+
+    wifi_data = f"WIFI:T:{security};S:{ssid};P:{password};;"
+    generate_qr(wifi_data)
+
+elif choice == "4":
+    name = input("Name: ")
+    phone = input("Phone: ")
+    email = input("Email: ")
+
+    contact = f"""BEGIN:VCARD
+VERSION:3.0
+FN:{name}
+TEL:{phone}
+EMAIL:{email}
+END:VCARD"""
+
+    generate_qr(contact)
+
+else:
+    print("Invalid option.")
